@@ -132,24 +132,47 @@ table inet filter {
  }
 }
 
+/etc/chrony.conf
+# pool pool.ntp.org iburst
+HQR
+server 172.0.0.1 iburst prefer
+hwtimestamp *
+local stratum 5
+allow 0/0
+
+reboot
+
+# pool pool.ntp.org iburst
+server 11.11.0.2 iburst prefer
+driftfile /var/lib/chrony/drift
+
+systemctl enable --now chronyd
 
 
+HQSRV 
+2G!
+/etc/resolv.conf search hq.work
+ipa-server-install --mkhomedir
+reboot
+kinit admin
+
+BR-SRV
+1+1
+lsblk
+fdisk /dev/...
+n
+p
+1
 
 
+t
+fd
+w
+mdadm --create /dev/md0 --level=5 --raid-devices=2 /dev/sd[b-c]
+mdadm -D /dev/md0
+mkfs.ext4 /dev/md0
+mkdir /mnt/raid5
+mount /dev/md0 /mnt/raid5
+echo "/dev/md0 /mnt/raid5 ext4 defaults 0 0" >> /etc/fstab
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+NyashMan/DEMO2024/
